@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Gradient background -->
+    <item android:drawable="@drawable/splash_gradient_background" />
+    <item android:drawable="@drawable/vt_music_splash_icon_screen_5" android:gravity="center" />
+</layer-list>
