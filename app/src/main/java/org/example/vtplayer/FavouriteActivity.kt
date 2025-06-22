@@ -1,20 +1,22 @@
-package org.example.vtplayer;
+package org.example.vtplayer
 
-import android.os.Bundle;
+import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import org.example.vtplayer.databinding.ActivityFavouriteBinding
 
-import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
-public class FavouriteActivity extends AppCompatActivity {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setTheme(R.style.Theme_VTPlayer);
-        setContentView(R.layout.activity_favourite);
+class FavouriteActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityFavouriteBinding
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        setTheme(R.style.Theme_VTPlayer)
+        binding = ActivityFavouriteBinding.inflate(layoutInflater)
+//        setContentView(R.layout.activity_playlist)
+        setContentView(binding.root)
     }
+
 }
