@@ -23,5 +23,12 @@
     <string name="equalizer_btn">Equalizer</string>
     <string name="timer_btn">Timer</string>
     <string name="share_btn">Share</string>
-
+    <string name="open">Open</string>
+    <string name="close">Close</string>
+    <string name="app_icon">Icon</string>
+    <string name="text_nav">!! Jai Shree Ram !!</string>
+    <string name="feedback">Feedback</string>
+    <string name="settings">settings</string>
+    <string name="about">About</string>
+    <string name="exit">Exit</string>
 </resources>
