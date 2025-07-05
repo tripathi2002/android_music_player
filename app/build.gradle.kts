@@ -66,6 +66,6 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
     // Glide for image loading
-//    implementation(libs.glide)
-//    annotationProcessor(libs.compiler)
+    implementation(libs.glide)
+    annotationProcessor(libs.compiler)
 }
