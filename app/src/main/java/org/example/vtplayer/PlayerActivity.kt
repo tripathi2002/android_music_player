@@ -12,7 +12,7 @@ class PlayerActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setTheme(R.style.Theme_VTPlayer)
+        setTheme(R.style.coolPink)
         binding = ActivityPlayerBinding.inflate(layoutInflater)
 //        setContentView(R.layout.activity_playlist)
         setContentView(binding.root)
