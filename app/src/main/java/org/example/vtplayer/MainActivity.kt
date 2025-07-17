@@ -3,8 +3,11 @@ package org.example.vtplayer
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.os.Environment
 import android.provider.MediaStore
+import android.provider.Settings
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.ComponentActivity
@@ -17,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+
 import org.example.vtplayer.databinding.ActivityMusicBinding
 import org.example.vtplayer.ui.theme.VTPlayerTheme
 import java.io.File
@@ -50,8 +54,11 @@ class MainActivity : AppCompatActivity() {
 //        Toast.makeText(this, "Coming From Load Click", Toast.LENGTH_LONG).show()
         binding.shuffleBtn.setOnClickListener {
 //            Toast.makeText(this@MainActivity, "Coming From Button Click Shuffle", Toast.LENGTH_SHORT).show()
-            val intent = Intent(this@MainActivity, PlayerActivity::class.java)
+            val intent = Intent(this, PlayerActivity::class.java)
+            intent.putExtra("index", 0)
+            intent.putExtra("class", "MainActivity")
             startActivity(intent)
+
         }
         binding.favouriteBtn.setOnClickListener {
 //            Toast.makeText(this@MainActivity, "Coming From Button Click Favourite", Toast.LENGTH_SHORT).show()
@@ -80,14 +87,28 @@ class MainActivity : AppCompatActivity() {
 
     // For requesting permission
     private  fun requestRuntimePermission(){
-        if(ActivityCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE), 13)
-            Toast.makeText(this, "Please Provide Permissions", Toast.LENGTH_SHORT).show()
-//            permissionLauncher.launch(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+//        val intent = Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION)
+//        startActivity(intent)
 
-        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            if (!Environment.isExternalStorageManager()) {
+                val intent = Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION)
+                startActivity(intent)
+            }
+        } else {
+            if(ActivityCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE), 13)
+//            Toast.makeText(this, "Please Provide Permissions", Toast.LENGTH_SHORT).show()
+////            permissionLauncher.launch(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+//        }
 //        else {
 //            Toast.makeText(this, "Permission already granted", Toast.LENGTH_SHORT).show()
+//        }
+        }
+//        if(ActivityCompat.checkSelfPermission(this, android.Manifest.permission.MANAGE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+//            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.MANAGE_EXTERNAL_STORAGE), 14)
+//            Toast.makeText(this, "Please Provide Permissions", Toast.LENGTH_SHORT).show()
+////            permissionLauncher.launch(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
 //        }
 
 //        if(ActivityCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_DENIED){
@@ -208,7 +229,6 @@ class MainActivity : AppCompatActivity() {
                     val durationC = if (durationIndex >= 0) cursor.getLong(durationIndex) else 0L
                     val albumIdC = if (albumIdIndex >= 0) cursor.getLong(albumIdIndex).toString() else ""
 
-
 //                    val titleC = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.TITLE))
 //                    val idC = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media._ID))
 //                    val albumC = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM))
@@ -222,7 +242,9 @@ class MainActivity : AppCompatActivity() {
                     val artUriC = Uri.withAppendedPath(uri, albumIdC).toString()
 
                     val music = Music(id = idC, title = titleC, album = albumC, artist = artistC, path = pathC, duration = durationC, artUri = artUriC)
+                    println("music path --> $pathC")
 
+                    if(!pathC.startsWith("/storage/emulated/0/Music")) break
 //                    val music = Music(id = idC, title = titleC, album = albumC, artist = artistC, path = pathC, duration = durationC)
                     val file = File(music.path)
                     if(file.exists())
